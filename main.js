@@ -32,15 +32,15 @@ function dateStringToEpoch(dateString) {
 * OUTPUT: Same Date object as input
 */
 function setObservedDate(date) {
-	if (date.getDay() == 6) { // Holiday falls on a Saturday
-		date.setDate(date.getDate() + 2);
-	} else if (date.getDay() == 0) { // Holiday falls on a Sunday
-		if (date.getMonth() == 0 && date.getDate() == 2 		// Day after New Years
-			|| date.getMonth() == 11 && date.getDate() == 26) { // Boxing Day
-			date.setDate(date.getDate() + 2);
-		} else {
-			date.setDate(date.getDate() + 1);
-		}
+	var day = date.getDay();
+	var monthDay = date.getDate();
+	var month = date.getMonth();
+	if (month == 0 && monthDay == 2 		// Day after New Years
+		|| month == 11 && monthDay == 26) { // Boxing Day
+		if (day % 6 == 0) { date.setDate(monthDay + 2); }
+		else if (day = 1) { date.setDate(monthDay + 1); }
+	} else {
+		if (day % 6 == 0) { date.setDate(monthDay + 1 + (day / 6)); }
 	}
 	return date;
 }
@@ -158,6 +158,20 @@ document.getElementById("body").innerHTML += `${output}<br>`;
 output = getNthDayOfMonth(2020, 1, 1, 5); // Should be "Mon Jun 01 2020"
 document.getElementById("body").innerHTML += `${output}<br>`;
 output = getNthDayOfMonth(2020, 4, 1, 5); // Should be "Mon Jun 22 2020"
+document.getElementById("body").innerHTML += `${output}<br>`;
+
+// setObservedDate(date)
+output = setObservedDate(new Date(2020, 11, 25)); // Should be "Fri Dec 25 2020"
+document.getElementById("body").innerHTML += `${output}<br>`;
+output = setObservedDate(new Date(2020, 11, 26)); // Should be "Mon Dec 28 2020"
+document.getElementById("body").innerHTML += `${output}<br>`;
+output = setObservedDate(new Date(2021, 11, 25)); // Should be "Mon Dec 27 2021"
+document.getElementById("body").innerHTML += `${output}<br>`;
+output = setObservedDate(new Date(2021, 11, 26)); // Should be "Tue Dec 28 2021"
+document.getElementById("body").innerHTML += `${output}<br>`;
+output = setObservedDate(new Date(2022, 11, 25)); // Should be "Mon Dec 26 2022"
+document.getElementById("body").innerHTML += `${output}<br>`;
+output = setObservedDate(new Date(2022, 11, 26)); // Should be "Tue Dec 27 2022"
 document.getElementById("body").innerHTML += `${output}<br>`;
 
 document.getElementById("body").innerHTML += `******* ENDING TESTS *******<br>`;
