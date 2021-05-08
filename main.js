@@ -18,7 +18,6 @@ function dateStringToEpoch(dateString) {
         if (char >= "0" && char <= "9") cleanString += char;
         else cleanString += "-";
     }
-
     // Generate epoch value
     var day = cleanString.split("-")[0];
     var month = (cleanString.split("-")[1]) - 1; // JS Date use zero-indexed months
@@ -107,13 +106,11 @@ function getHolidays(currYear) {
 function nBusinessDaysLater(date, n) {
     // Create epoch value from input value
     var epoch = dateStringToEpoch(date);
-
     // Convert public holiday strings into epoch values
     var holidayEpochs = [];
     for (var i = 0; i < holidayStrings.length; i++) {
         holidayEpochs.push(dateStringToEpoch(holidayStrings[i]));
     }
-	
     // Evalute date after n business days
 	var epochAfter = epoch;
 	var dateAfter = new Date(epochAfter);
@@ -124,6 +121,7 @@ function nBusinessDaysLater(date, n) {
 		if (!holidayEpochs.includes(epochAfter)
 			&& dateAfter.getDay() % 6 != 0) { i--; }
 	}
+	// Format string output
 	var day = dateAfter.getDate().toString();
 	while (day.length < 2) { day = "0" + day }
 	var month = (dateAfter.getMonth() + 1).toString();
